@@ -1,4 +1,4 @@
-# ERSS-hw1-qx37-yz553
+# Mini Uber
 
 This is a Django web-app for ride share service. Users can request a ride, or search and join an open ride, and also can register as a driver to search and accept a request.
 
