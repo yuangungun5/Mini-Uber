@@ -1,0 +1,81 @@
+{% extends "ride/base.html" %}
+{% block content %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ object.owner.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ object.owner }}</a>
+              <small class="text-muted">{{ object.date_arrival|date:"F d, Y"}}</small>
+	      <small class="text-muted"> status:{{object.order_status }}</small>
+            </div>
+	  <div>
+            <h2><a class="article-content">From: {{ object.start }}</a></h2>
+            <h2><a class="article-content">To: {{ object.destination }}</a></h2>
+	    <p class="article-content">Arrival time: {{ object.date_arrival }}</p>
+	    <p class="article-content">How many passengers in owner party: {{ object.passenger_num }}</p>
+	    <p class="article-content">Shared or not: {{ object.is_shared }}</p>
+	    {% if object.share_flag %}
+	    <p class="article-content">Sharer: {{ object.sharer.profile.user.username }}</p>
+	    <p class="article-content">How many passengers in sharer party: {{ object.share_passenger_num }}</p>
+            {% endif %}
+            <p class="article-note">Other note: {{ object.note }}</p>
+	  </div>
+
+	  
+	  {% if object.owner == user %}
+	  {% if object.order_status == 'OP' %}  
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'ride-update' object.id %}">Edit</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'ride-delete' object.id %}">Cancel</a>
+          </div>
+	  {% elif object.order_status == 'CP' %}
+
+	  <div>
+            <h2><a class="article-content">Driver Info</a></h2>
+	    <p class="article-content">Name: {{ object.driver.profile.name }}</p>
+            <p class="article-content">Licence: {{ object.driver.profile.licence }}</p>
+            <p class="article-note">Car ID: {{ object.driver.profile.car_id }}</p>
+	  </div>
+	  
+
+	  {% elif object.order_status == 'ON' %}
+
+	  <div>
+            <h2><a class="article-content">Driver Info</a></h2>
+	    <p class="article-content">Name: {{ object.driver.profile.name }}</p>
+            <p class="article-content">Licence: {{ object.driver.profile.licence }}</p>
+            <p class="article-note">Car ID: {{ object.driver.profile.car_id }}</p>
+	  </div>
+
+	  {% endif %}
+	 {% endif %} 
+
+	 {% if object.sharer == user %}
+	  {% if object.order_status == 'CP' %}
+	  <div>
+            <h2><a class="article-content">Driver Info</a></h2>
+	    <p class="article-content">Name: {{ object.driver.profile.name }}</p>
+            <p class="article-content">Licence: {{ object.driver.profile.licence }}</p>
+            <p class="article-note">Car ID: {{ object.driver.profile.car_id }}</p>
+	  </div>
+	  {% elif object.order_status == 'PD' %}
+	     <div>
+	       <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'ride-quit' object.id %}">Cancel</a>
+             </div>
+	  {% endif %}
+	{% endif %} 
+
+
+
+	  {% if object.driver == user %}
+	     {% if object.order_status == 'ON' %}
+             <div>
+               <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'ride-complete' object.id %}">Complete</a>
+	       <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'ride-close' object.id %}">Cancel</a>
+              </div>
+	     {% endif %}
+	  {% endif %}
+          </div>	  
+        </article>
+	
+{% endblock content %}

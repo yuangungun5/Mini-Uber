@@ -1,0 +1,30 @@
+{% extends "ride/base.html" %}
+{% block content %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ object.owner.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ object.owner.username }}</a>
+              <small class="text-muted">{{ object.date_arrival|date:"F d, Y" }}</small>
+              <small class="text-muted">status: {{ object.order_status }}</small>
+            </div>
+
+       	  <div>
+            <h2><a class="article-content">{{ object.destination }}</a></h2>
+	    <p class="article-content">Shared or not: {{ object.is_shared }}</p>
+            <p class="article-content">How many passengers in owner party: {{ object.passenger_num }}</p>
+            <p class="article-note">Other note: {{ object.note }}</p>
+	  </div>
+
+	  {% if object.share_flag %}
+	    <p class="article-content">Sharer: {{ object.sharer.profile.user.username }}</p>
+	    <p class="article-content">How many passengers in sharer party: {{ object.share_passenger_num }}</p>
+          {% endif %}
+
+	  {% if object.order_status == 'OP' %}
+	     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'join' object.id %}">Join the ride</a>
+	  {% endif %}
+          </div>
+        </article>
+	
+{% endblock content %}

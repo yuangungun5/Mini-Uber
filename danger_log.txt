@@ -1,0 +1,20 @@
+Danger Log
+
+01/19
+As we created model for users’ registration, since there might be same names corresponding to different User id, which can be dangerous that a user can intrude other customers’ account. Therefore, it is necessary to set restrictions on the same usernames or  be care about the username in the permission settings.
+
+01/23
+When we try to save the forms created for some ride request, we met save failures because of the value lack. And we need to take in **kwargs and *args in our save function to keep all the information in and save.
+
+01/26
+When we attempted to use “ForeignKey” (OneToMany) field for rides’ owner, sharer, driver to make it easy to access their user information, we found that we cannot let them inherit from the same table, unless we add “related_name” to specify the field when tracked the user respectively.
+
+02/02
+After we changed our model for “rides” several times, (we added some fields for sharer and driver and changed some fields’ type), we find we cannot migrate fully when running in local environment. It might because that out database has already created some tables and the system thought nothing new to migrate, which will cause “fake-migrate”. The solution is deleting all the tables in the database and make migrations from scratch. In this way, the system will be forced to create new tables for all the models.
+
+02/03
+When we moved our project to docker and test the functions, we met the same problems that we cannot migrate fully even we can run successfully in local. So we implemented the same method which is remove some files including “sudo docker volume prune” and “sudo docker system prune” to force the docker migrate from scratch. 
+
+02/04
+When we moved our project to docker and test the functions, we found that the profile’s pictures cannot be accessed. This is about the permission setting of the media. When we changed it to readable & writable, the pictures become accessible in docker.
+

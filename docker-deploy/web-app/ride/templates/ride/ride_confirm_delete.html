@@ -1,0 +1,16 @@
+{% extends "ride/base.html" %}
+{% block content %}
+    <div class = "content-section"> 
+        <form method = "POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Cancel The Ride</legend>
+                <h2>Are you sure you want to cancel the ride to "{{ object.destination }}"?</h2>
+            </fieldset>
+            <div class = "form-group">
+                <button class="btn btn-outline-danger" type="submit">Yes, I want to cancel the order.</button>
+                <a class="btn btn-outline-secondary" href="{% url 'ride-detail' object.id %}">No, I want to continue the order.</button></a>
+            </div>
+        </form>
+    </div>	
+{% endblock content %}
